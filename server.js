@@ -3,7 +3,6 @@ const fs = require('fs')
 const app = express()
 const port = 4000
 const config = require('./config.json')
-const bodyParser = require('body-parser')
 const axios = require('axios')
 
 app.get('/', (req, res) => res.send(`escuchando carpeta, ${config.ruta}`))
@@ -12,6 +11,7 @@ app.listen(port, () => {
     console.log(`Origen: ${config.ruta}`)
     console.log(`Destino: ${config.destino}`)
 })
+
 setInterval(() => {
     fs.readdir(config.ruta, (err, files) => {
         if (err) {
@@ -37,7 +37,7 @@ setInterval(() => {
                     }
                     axios(request)
                     .then(res => {
-                        console.log('archivo enviado', res);
+                        console.log('archivo enviado', res.data);
                         if (!fs.existsSync(`${config.ruta}/enviados`)) {
                             fs.mkdirSync(`${config.ruta}/enviados`);
                         }
@@ -45,16 +45,11 @@ setInterval(() => {
                             err ? console.log('error al renombrar archivo', err) : console.log(`Archivo ${file} movido a carpeta enviados`)
                         })
                     })
-                    .catch(() => {
-                        console.log('no hay conexion al server de infolab');
-                    })
                 }
                 catch (error) {
                     console.log('no se pudo mover archivo', error);
                 }
             });
-        } else {
-            console.log('no hay archivos para mover')
-        }
+        } 
     })
 }, 5000)
