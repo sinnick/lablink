@@ -22,32 +22,51 @@ setInterval(() => {
         if (fileList.length) {
             console.log('nuevos archivos', { fileList });
             fileList.forEach(file => {
-                try {
-                    let filetosend = fs.readFileSync(`${config.ruta}/${file}`, 'base64');
-                    let request = {
-                        method: 'post',
-                        url: config.destino,
-                        data: {
-                            filename: file,
-                            pdf: filetosend
-                        },
-                        headers: {
-                            'Content-Type': 'application/pdf',
+                console.log('trabajando con archivo', file);
+                let laboratorio = file.split('_')[0];
+                let protocolo = file.split('_')[1];
+                let dni = file.split('_')[2];
+                let regexlaboratorio = /^[0-9]{4}$/;
+                let regexprotocolo = /^[0-9]{8}$/;
+                let regexdni = /^[0-9]{8}$/;
+                if (regexlaboratorio.test(laboratorio) && regexprotocolo.test(protocolo) && regexdni.test(dni)) {
+                    try {
+                        let filetosend = fs.readFileSync(`${config.ruta}/${file}`, 'base64');
+                        let request = {
+                            method: 'post',
+                            url: config.destino,
+                            data: {
+                                filename: file,
+                                pdf: filetosend
+                            },
+                            headers: {
+                                'Content-Type': 'application/pdf',
+                            }
                         }
+                        axios(request)
+                            .then(res => {
+                                console.log('archivo enviado', res.data);
+                                if (!fs.existsSync(`${config.ruta}/enviados`)) {
+                                    fs.mkdirSync(`${config.ruta}/enviados`);
+                                }
+                                fs.rename(`${config.ruta}\\${file}`, `${config.ruta}\\enviados\\${file}`, (err) => {
+                                    err ? console.log('error al renombrar archivo', err) : console.log(`Archivo ${file} movido a carpeta enviados`)
+                                })
+                            })
                     }
-                    axios(request)
-                    .then(res => {
-                        console.log('archivo enviado', res.data);
-                        if (!fs.existsSync(`${config.ruta}/enviados`)) {
-                            fs.mkdirSync(`${config.ruta}/enviados`);
-                        }
-                        fs.rename(`${config.ruta}\\${file}`, `${config.ruta}\\enviados\\${file}`, (err) => {
-                            err ? console.log('error al renombrar archivo', err) : console.log(`Archivo ${file} movido a carpeta enviados`)
+                    catch (error) {
+                        console.log('no se pudo mover archivo', error);
+                    }
+                } else {
+                    console.log('archivo no cumple con formato, no se envia', file);
+                    try {
+                        fs.rename(`${config.ruta}\\${file}`, `${config.ruta}\\no validos\\${file}`, (err) => {
+                            err ? console.log('error al renombrar archivo', err) : console.log(`Archivo ${file} movido a carpeta no validos`)
                         })
-                    })
-                }
-                catch (error) {
-                    console.log('no se pudo mover archivo', error);
+
+                    } catch (error) {
+                        console.log('no se pudo mover archivo', error);
+                    }
                 }
             });
         } 
