@@ -60,7 +60,10 @@ setInterval(() => {
                 } else {
                     console.log('archivo no cumple con formato, no se envia', file);
                     try {
-                        fs.rename(`${config.ruta}\\${file}`, `${config.ruta}\\no validos\\${file}`, (err) => {
+                        if (!fs.existsSync(`${config.ruta}/no validos`)) {
+                            fs.mkdirSync(`${config.ruta}/no validos`);
+                        }
+                        fs.rename(`${config.ruta}/${file}`, `${config.ruta}/no validos/${file}`, (err) => {
                             err ? console.log('error al renombrar archivo', err) : console.log(`Archivo ${file} movido a carpeta no validos`)
                         })
 
