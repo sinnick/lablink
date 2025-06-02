@@ -28,7 +28,7 @@ setInterval(() => {
 				let dni = file.split('_')[2];
 				let regexlaboratorio = /^[0-9]{4}$/;
 				const regexProtocolo = /^[0-9]{1,8}$/;
-				let regexdni = /^[0-9]{8}$/;
+				let regexdni = /^[0-9]{7,8}$/;
 				if (regexlaboratorio.test(laboratorio) && regexProtocolo.test(protocolo) && regexdni.test(dni)) {
 					try {
 						let filetosend = fs.readFileSync(`${config.ruta}/${file}`, 'base64');
