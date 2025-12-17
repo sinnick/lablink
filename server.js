@@ -40,7 +40,7 @@ setInterval(() => {
 								pdf: filetosend
 							},
 							headers: {
-								'Content-Type': 'application/pdf',
+								'Content-Type': 'application/json',
 							}
 						}
 						axios(request)
@@ -54,7 +54,7 @@ setInterval(() => {
 								})
 							})
 							.catch(err => {
-								console.log('error al enviar archivo', err.response.data);
+								console.log('error al enviar archivo', err.response?.data || err.message);
 							})
 					}
 					catch (error) {
