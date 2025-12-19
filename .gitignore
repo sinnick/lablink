@@ -1,2 +1,29 @@
-/node_modules
-/pdf
+# Dependencies
+node_modules/
+
+# PDF folder
+pdf/
+
+# Build output
+dist/
+dist-electron/
+out/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local

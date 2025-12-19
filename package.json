@@ -1,19 +1,57 @@
 {
   "name": "lablink",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "LabLink PDF Monitor - Aplicación de escritorio para monitoreo y envío de PDFs de laboratorio",
+  "main": "electron/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "dist": "npm run build && electron-builder --win"
   },
-  "keywords": [],
+  "keywords": ["laboratorio", "pdf", "electron", "desktop"],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.9",
-    "express": "^4.21.2",
-    "move-file": "^3.1.0",
-    "node-fetch": "^3.3.2",
-    "nodemon": "^3.1.7"
+    "chokidar": "^4.0.3",
+    "electron-log": "^5.2.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.0.3",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.lablink.pdfmonitor",
+    "productName": "LabLink PDF Monitor",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "dist-electron/**/*",
+      "build/**/*"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }
