@@ -1,0 +1,409 @@
+{
+  "url": "https://labinfo.com.ar/",
+  "extractedAt": "2025-12-19T15:31:32.214Z",
+  "logo": {
+    "source": "img",
+    "url": "https://labinfo.com.ar/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flog.6107e8e7.png&w=3840&q=75",
+    "width": 3840,
+    "height": 2484,
+    "alt": "logo",
+    "safeZone": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    }
+  },
+  "favicons": [
+    {
+      "type": "icon",
+      "url": "https://labinfo.com.ar/favicon.ico",
+      "sizes": "48x48"
+    }
+  ],
+  "colors": {
+    "semantic": {},
+    "palette": [
+      {
+        "color": "rgb(229, 231, 235)",
+        "normalized": "#e5e7eb",
+        "count": 63,
+        "confidence": "high",
+        "sources": [
+          "mt-4",
+          "flex"
+        ]
+      },
+      {
+        "color": "rgb(0, 0, 0)",
+        "normalized": "#000000",
+        "count": 21,
+        "confidence": "high",
+        "sources": []
+      },
+      {
+        "color": "rgba(31, 41, 55, 0.4)",
+        "normalized": "#1f2937",
+        "count": 15,
+        "confidence": "medium",
+        "sources": []
+      },
+      {
+        "color": "rgb(156, 163, 175)",
+        "normalized": "#9ca3af",
+        "count": 12,
+        "confidence": "medium",
+        "sources": []
+      },
+      {
+        "color": "rgb(75, 85, 99)",
+        "normalized": "#4b5563",
+        "count": 3,
+        "confidence": "low",
+        "sources": []
+      },
+      {
+        "color": "rgb(202, 72, 75)",
+        "normalized": "#ca484b",
+        "count": 1,
+        "confidence": "medium",
+        "sources": [
+          "hover/focus"
+        ]
+      },
+      {
+        "color": "rgba(255, 255, 255, 0.224)",
+        "normalized": "#ffffff",
+        "count": 1,
+        "confidence": "medium",
+        "sources": [
+          "hover/focus"
+        ]
+      }
+    ],
+    "cssVariables": {
+      "--toastify-color-warning": "#f1c40f",
+      "--toastify-text-color-error": "#fff",
+      "--toastify-color-info": "#3498db",
+      "--toastify-color-progress-error": "#e74c3c",
+      "--tw-ring-color": "rgb(59 130 246/0.5)",
+      "--toastify-text-color-light": "#757575",
+      "--toastify-color-progress-success": "#07bc0c",
+      "--toastify-color-progress-dark": "#bb86fc"
+    }
+  },
+  "typography": {
+    "styles": [
+      {
+        "context": "heading-1",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "20px (1.25rem)",
+        "weight": 500,
+        "lineHeight": "1.40",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "button",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "18px (1.13rem)",
+        "weight": 500,
+        "lineHeight": "1.56",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "18px (1.13rem)",
+        "weight": 500,
+        "lineHeight": "1.56",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "16px (1.00rem)",
+        "weight": 400,
+        "lineHeight": "2.00",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "link",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "16px (1.00rem)",
+        "weight": 400,
+        "lineHeight": "1.50",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "caption",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "14px (0.88rem)",
+        "weight": 400,
+        "lineHeight": "1.43",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "caption",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "14px (0.88rem)",
+        "weight": 500,
+        "lineHeight": "1.43",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "button",
+        "family": "Inter",
+        "fallbacks": "Inter Fallback",
+        "size": "14px (0.88rem)",
+        "weight": 500,
+        "lineHeight": "1.43",
+        "spacing": null,
+        "transform": null
+      }
+    ],
+    "sources": {
+      "googleFonts": [],
+      "adobeFonts": false,
+      "variableFonts": false
+    }
+  },
+  "spacing": {
+    "scaleType": "8px",
+    "commonValues": [
+      {
+        "px": "4px",
+        "rem": "0.25rem",
+        "count": 28,
+        "numericValue": 4
+      },
+      {
+        "px": "8px",
+        "rem": "0.50rem",
+        "count": 31,
+        "numericValue": 8
+      },
+      {
+        "px": "10px",
+        "rem": "0.63rem",
+        "count": 2,
+        "numericValue": 10
+      },
+      {
+        "px": "12px",
+        "rem": "0.75rem",
+        "count": 6,
+        "numericValue": 12
+      },
+      {
+        "px": "14px",
+        "rem": "0.88rem",
+        "count": 2,
+        "numericValue": 14
+      },
+      {
+        "px": "20px",
+        "rem": "1.25rem",
+        "count": 3,
+        "numericValue": 20
+      },
+      {
+        "px": "24px",
+        "rem": "1.50rem",
+        "count": 4,
+        "numericValue": 24
+      },
+      {
+        "px": "32px",
+        "rem": "2.00rem",
+        "count": 3,
+        "numericValue": 32
+      },
+      {
+        "px": "40px",
+        "rem": "2.50rem",
+        "count": 2,
+        "numericValue": 40
+      }
+    ]
+  },
+  "borderRadius": {
+    "values": [
+      {
+        "value": "8px",
+        "count": 5,
+        "elements": [
+          "select",
+          "input",
+          "button"
+        ],
+        "confidence": "medium",
+        "numericValue": 8
+      },
+      {
+        "value": "16px",
+        "count": 1,
+        "elements": [
+          "div"
+        ],
+        "confidence": "low",
+        "numericValue": 16
+      }
+    ]
+  },
+  "borders": {
+    "combinations": [
+      {
+        "width": "1px",
+        "style": "solid",
+        "color": "rgb(75, 85, 99)",
+        "count": 3,
+        "elements": [
+          "select",
+          "input"
+        ],
+        "confidence": "low"
+      }
+    ]
+  },
+  "shadows": [
+    {
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px",
+      "count": 1,
+      "confidence": "low"
+    }
+  ],
+  "components": {
+    "buttons": [
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "rgb(55, 65, 81)",
+            "color": "rgb(255, 255, 255)",
+            "padding": "10px 16px",
+            "borderRadius": "8px",
+            "border": "0px solid rgb(229, 231, 235)",
+            "boxShadow": "none",
+            "outline": "rgb(255, 255, 255) none 0px",
+            "transform": "none",
+            "opacity": "1"
+          },
+          "hover": {
+            "opacity": "1"
+          },
+          "active": null,
+          "focus": {
+            "opacity": "1"
+          }
+        },
+        "fontWeight": "500",
+        "fontSize": "14px",
+        "classes": "flex items-center space-x-2 text-white bg-gray-700",
+        "confidence": "high"
+      }
+    ],
+    "inputs": {
+      "text": [
+        {
+          "specificType": "text",
+          "states": {
+            "default": {
+              "backgroundColor": "rgb(55, 65, 81)",
+              "color": "rgb(243, 244, 246)",
+              "border": "1px solid rgb(75, 85, 99)",
+              "borderRadius": "8px",
+              "padding": "12px 16px 12px 40px",
+              "boxShadow": "none",
+              "outline": "rgba(0, 0, 0, 0) solid 2px"
+            },
+            "focus": null
+          }
+        }
+      ],
+      "checkbox": [],
+      "radio": [],
+      "select": [
+        {
+          "specificType": "select-one",
+          "states": {
+            "default": {
+              "backgroundColor": "rgb(55, 65, 81)",
+              "color": "rgb(243, 244, 246)",
+              "border": "1px solid rgb(75, 85, 99)",
+              "borderRadius": "8px",
+              "padding": "12px 32px 12px 16px",
+              "boxShadow": "none",
+              "outline": "rgba(0, 0, 0, 0) solid 2px"
+            },
+            "focus": null
+          }
+        }
+      ]
+    },
+    "links": [
+      {
+        "color": "rgb(0, 0, 0)",
+        "textDecoration": "none",
+        "fontWeight": "400",
+        "states": {
+          "default": {
+            "color": "rgb(0, 0, 0)",
+            "textDecoration": "none"
+          },
+          "hover": null
+        }
+      }
+    ],
+    "badges": {
+      "all": [],
+      "byVariant": {
+        "error": [],
+        "warning": [],
+        "success": [],
+        "info": [],
+        "neutral": []
+      }
+    }
+  },
+  "breakpoints": [
+    {
+      "px": "480px"
+    },
+    {
+      "px": "640px"
+    },
+    {
+      "px": "768px"
+    },
+    {
+      "px": "1024px"
+    },
+    {
+      "px": "1280px"
+    },
+    {
+      "px": "1536px"
+    }
+  ],
+  "iconSystem": [],
+  "frameworks": [
+    {
+      "name": "Fluent UI",
+      "confidence": "high",
+      "evidence": "6 Fluent components"
+    }
+  ]
+}

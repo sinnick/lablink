@@ -1,4 +1,7 @@
 {
-    "ruta": "C:\\Users\\Fernando\\Desktop\\code\\lablink\\pdf",
-    "destino": "http://www.labinfo.com.ar/api/lablink/pdf"
+    "ruta": "/home/fernando/code/fer/lablink/pdf",
+    "destino": "https://www.labinfo.com.ar/api/lablink/pdf",
+    "autoStart": false,
+    "notifications": true,
+    "monitorInterval": 10000
 }
