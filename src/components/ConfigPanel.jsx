@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useElectron } from '../hooks/useElectron';
 
-const ConfigPanel = ({ isOpen, onClose, currentConfig }) => {
+const ConfigPanel = ({ isOpen, onClose, onConfigSaved }) => {
   const electron = useElectron();
   const [config, setConfig] = useState({
     ruta: '',
@@ -13,17 +13,44 @@ const ConfigPanel = ({ isOpen, onClose, currentConfig }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const hasLoaded = useRef(false);
 
+  // Cargar configuración cuando el panel se abre
   useEffect(() => {
-    if (currentConfig) {
-      setConfig(currentConfig);
+    const loadConfig = async () => {
+      if (isOpen && !hasLoaded.current) {
+        setIsLoading(true);
+        try {
+          const result = await electron.config.get();
+          if (result?.success && result.config) {
+            setConfig(prev => ({
+              ...prev,
+              ...result.config
+            }));
+          }
+        } catch (err) {
+          console.error('Error loading config:', err);
+        } finally {
+          setIsLoading(false);
+          hasLoaded.current = true;
+        }
+      }
+    };
+
+    if (isOpen) {
+      loadConfig();
+    } else {
+      // Reset cuando se cierra para la próxima vez
+      hasLoaded.current = false;
     }
-  }, [currentConfig]);
+  }, [isOpen]);
 
   const handleSelectFolder = async () => {
     const result = await electron.config.selectFolder();
     if (result?.success && result.path) {
-      setConfig({ ...config, ruta: result.path });
+      // Usar callback form para evitar closure stale
+      setConfig(prev => ({ ...prev, ruta: result.path }));
     }
   };
 
@@ -75,24 +102,24 @@ const ConfigPanel = ({ isOpen, onClose, currentConfig }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 backdrop-blur-sm">
+      <div className="bg-surface-dark rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden border border-gray-800">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Configuración</h2>
+        <div className="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-100">Configuración</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-500 hover:text-gray-300 transition-colors p-1 rounded-lg hover:bg-surface-light"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* Body */}
-        <div className="px-6 py-4 overflow-y-auto max-h-[calc(90vh-140px)]">
-          <div className="space-y-6">
+        <div className="px-6 py-5 overflow-y-auto max-h-[calc(90vh-140px)] scrollbar-thin">
+          <div className="space-y-5">
             {/* Carpeta de PDFs */}
             <div>
               <label className="label">Carpeta de PDFs</label>
@@ -107,14 +134,14 @@ const ConfigPanel = ({ isOpen, onClose, currentConfig }) => {
                 />
                 <button
                   onClick={handleSelectFolder}
-                  className="btn-secondary flex-shrink-0"
+                  className="btn-secondary flex-shrink-0 px-3"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                   </svg>
                 </button>
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 mt-1.5">
                 Los archivos PDF se monitorearan en esta carpeta
               </p>
             </div>
@@ -129,7 +156,7 @@ const ConfigPanel = ({ isOpen, onClose, currentConfig }) => {
                 className="input"
                 placeholder="http://www.ejemplo.com/api/endpoint"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 mt-1.5">
                 Endpoint donde se enviarán los archivos PDF
               </p>
             </div>
@@ -141,12 +168,12 @@ const ConfigPanel = ({ isOpen, onClose, currentConfig }) => {
               </label>
               <input
                 type="range"
-                min="1000"
-                max="30000"
-                step="1000"
+                min={1000}
+                max={30000}
+                step={1000}
                 value={config.monitorInterval}
                 onChange={(e) => setConfig({ ...config, monitorInterval: parseInt(e.target.value) })}
-                className="w-full"
+                className="w-full h-2 bg-surface-light rounded-lg appearance-none cursor-pointer accent-primary-500"
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>1s</span>
@@ -156,67 +183,63 @@ const ConfigPanel = ({ isOpen, onClose, currentConfig }) => {
             </div>
 
             {/* Auto-inicio */}
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-surface rounded-xl">
               <div>
-                <p className="text-sm font-medium text-gray-900">Iniciar monitoreo automáticamente</p>
+                <p className="text-sm font-medium text-gray-200">Iniciar monitoreo automáticamente</p>
                 <p className="text-xs text-gray-500 mt-0.5">
                   El monitoreo comenzará al abrir la aplicación
                 </p>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={config.autoStart}
-                  onChange={(e) => setConfig({ ...config, autoStart: e.target.checked })}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
-              </label>
+              <button
+                type="button"
+                onClick={() => setConfig({ ...config, autoStart: !config.autoStart })}
+                className={`w-11 h-6 rounded-full transition-colors relative ${config.autoStart ? 'bg-primary-600' : 'bg-gray-600'}`}
+              >
+                <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${config.autoStart ? 'translate-x-5' : 'translate-x-0.5'}`} />
+              </button>
             </div>
 
             {/* Notificaciones */}
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-surface rounded-xl">
               <div>
-                <p className="text-sm font-medium text-gray-900">Notificaciones de escritorio</p>
+                <p className="text-sm font-medium text-gray-200">Notificaciones de escritorio</p>
                 <p className="text-xs text-gray-500 mt-0.5">
                   Mostrar notificaciones cuando se envían archivos
                 </p>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={config.notifications}
-                  onChange={(e) => setConfig({ ...config, notifications: e.target.checked })}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
-              </label>
+              <button
+                type="button"
+                onClick={() => setConfig({ ...config, notifications: !config.notifications })}
+                className={`w-11 h-6 rounded-full transition-colors relative ${config.notifications ? 'bg-primary-600' : 'bg-gray-600'}`}
+              >
+                <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${config.notifications ? 'translate-x-5' : 'translate-x-0.5'}`} />
+              </button>
             </div>
 
             {/* Error Message */}
             {error && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-                <svg className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl flex items-start gap-3">
+                <svg className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-sm text-red-700">{error}</p>
+                <p className="text-sm text-red-400">{error}</p>
               </div>
             )}
 
             {/* Success Message */}
             {success && (
-              <div className="p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
-                <svg className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-start gap-3">
+                <svg className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <p className="text-sm text-green-700">Configuración guardada correctamente</p>
+                <p className="text-sm text-emerald-400">Configuración guardada correctamente</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-end gap-3">
+        <div className="px-6 py-4 border-t border-gray-800 flex items-center justify-end gap-3">
           <button
             onClick={onClose}
             className="btn-secondary"

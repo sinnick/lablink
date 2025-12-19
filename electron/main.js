@@ -9,14 +9,35 @@ const ConfigManager = require('./services/configManager');
 log.transports.file.level = 'info';
 log.transports.console.level = 'debug';
 
+// Hot reload en desarrollo
+if (!app.isPackaged) {
+  try {
+    require('electron-reload')(__dirname, {
+      electron: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
+      hardResetMethod: 'exit'
+    });
+  } catch (e) {
+    log.warn('electron-reload no disponible:', e.message);
+  }
+}
+
 let mainWindow = null;
 let tray = null;
 let fileMonitor = null;
 let isQuitting = false;
+let configManagerInstance = null;
+
+// Singleton para ConfigManager
+function getConfigManager() {
+  if (!configManagerInstance) {
+    configManagerInstance = new ConfigManager();
+  }
+  return configManagerInstance;
+}
 
 // Desarrollo o producción
 const isDev = process.env.NODE_ENV === 'development' || !app.isPackaged;
-const VITE_DEV_SERVER_URL = 'http://localhost:5173';
+const VITE_DEV_SERVER_URL = 'http://localhost:5174';
 
 // Helper para obtener el path del ícono
 function getIconPath() {
@@ -259,7 +280,7 @@ app.on('before-quit', () => {
 
 // Inicializar servicios
 function initializeServices() {
-  const configManager = new ConfigManager();
+  const configManager = getConfigManager();
 
   // Crear instancia del monitor de archivos
   fileMonitor = new FileMonitor(configManager, (eventName, data) => {
@@ -277,7 +298,7 @@ function initializeServices() {
 // Configuración
 ipcMain.handle('config:get', async () => {
   try {
-    const configManager = new ConfigManager();
+    const configManager = getConfigManager();
     return { success: true, config: configManager.getConfig() };
   } catch (error) {
     log.error('Error al obtener configuración:', error);
@@ -287,7 +308,7 @@ ipcMain.handle('config:get', async () => {
 
 ipcMain.handle('config:save', async (event, newConfig) => {
   try {
-    const configManager = new ConfigManager();
+    const configManager = getConfigManager();
     configManager.saveConfig(newConfig);
 
     // Reiniciar el monitor con la nueva configuración

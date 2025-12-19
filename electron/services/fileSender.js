@@ -177,9 +177,9 @@ class FileSender {
    */
   async checkServerHealth() {
     try {
-      // Intentar hacer una petición HEAD o GET al servidor
+      // Intentar hacer una petición OPTIONS al servidor
       const response = await axios({
-        method: 'head',
+        method: 'options',
         url: this.serverUrl,
         timeout: 5000
       });
@@ -190,6 +190,15 @@ class FileSender {
       };
 
     } catch (error) {
+      // Si el servidor responde con 405 (Method Not Allowed) o 400-499,
+      // significa que está online pero no acepta ese método
+      if (error.response && error.response.status >= 400 && error.response.status < 500) {
+        return {
+          online: true,
+          statusCode: error.response.status
+        };
+      }
+
       log.warn('Servidor no disponible:', error.message);
 
       return {

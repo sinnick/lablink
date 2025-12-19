@@ -3,47 +3,42 @@ import React from 'react';
 const StatusIndicator = ({ label, status, subtitle }) => {
   const statusConfig = {
     online: {
-      color: 'bg-green-500',
+      color: 'bg-emerald-500',
       pulse: 'animate-pulse-slow',
       text: 'Conectado',
-      bgColor: 'bg-green-50',
-      textColor: 'text-green-700'
+      textColor: 'text-emerald-400'
     },
     offline: {
       color: 'bg-red-500',
       pulse: '',
       text: 'Desconectado',
-      bgColor: 'bg-red-50',
-      textColor: 'text-red-700'
+      textColor: 'text-red-400'
     },
     checking: {
-      color: 'bg-yellow-500',
+      color: 'bg-amber-500',
       pulse: 'animate-pulse',
       text: 'Verificando...',
-      bgColor: 'bg-yellow-50',
-      textColor: 'text-yellow-700'
+      textColor: 'text-amber-400'
     },
     monitoring: {
       color: 'bg-blue-500',
       pulse: 'animate-pulse-slow',
       text: 'Monitoreando',
-      bgColor: 'bg-blue-50',
-      textColor: 'text-blue-700'
+      textColor: 'text-blue-400'
     },
     stopped: {
       color: 'bg-gray-500',
       pulse: '',
       text: 'Detenido',
-      bgColor: 'bg-gray-50',
-      textColor: 'text-gray-700'
+      textColor: 'text-gray-400'
     }
   };
 
   const config = statusConfig[status] || statusConfig.offline;
 
   return (
-    <div className={`${config.bgColor} rounded-lg p-4 flex items-start gap-3`}>
-      <div className="flex-shrink-0 mt-1">
+    <div className="card flex items-start gap-3">
+      <div className="flex-shrink-0 mt-0.5">
         <div className="relative">
           <div className={`w-3 h-3 rounded-full ${config.color}`}></div>
           {config.pulse && (
@@ -55,11 +50,11 @@ const StatusIndicator = ({ label, status, subtitle }) => {
         <p className={`text-sm font-medium ${config.textColor}`}>
           {label}
         </p>
-        <p className={`text-xs ${config.textColor} opacity-75 mt-0.5`}>
+        <p className="text-xs text-gray-400 mt-0.5">
           {config.text}
         </p>
         {subtitle && (
-          <p className={`text-xs ${config.textColor} opacity-60 mt-1`}>
+          <p className="text-xs text-gray-500 mt-1 truncate">
             {subtitle}
           </p>
         )}

@@ -47,7 +47,7 @@ const Dashboard = () => {
     };
 
     loadConfig();
-  }, [electron]);
+  }, []); // Solo cargar una vez al montar
 
   // Agregar actividad
   const addActivity = useCallback((type, data) => {
@@ -228,18 +228,18 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col bg-black">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
+      <header className="bg-surface-dark border-b border-gray-800 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">LabLink PDF Monitor</h1>
+              <h1 className="text-xl font-bold text-gray-100">LabLink PDF Monitor</h1>
               <p className="text-xs text-gray-500">Monitor de archivos de laboratorio</p>
             </div>
           </div>
@@ -283,12 +283,12 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-hidden p-6">
-        <div className="h-full grid grid-cols-3 gap-6">
+      <main className="flex-1 overflow-hidden p-4">
+        <div className="h-full grid grid-cols-3 gap-4">
           {/* Left Column */}
-          <div className="col-span-2 flex flex-col gap-6">
+          <div className="col-span-2 flex flex-col gap-4">
             {/* Status Cards */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3">
               <StatusIndicator
                 label="Estado del Servidor"
                 status={serverOnline ? 'online' : 'offline'}
@@ -302,22 +302,22 @@ const Dashboard = () => {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 gap-3">
               <div className="card text-center">
-                <p className="text-2xl font-bold text-gray-900">{stats.totalProcessed}</p>
-                <p className="text-xs text-gray-600 mt-1">Procesados</p>
+                <p className="text-2xl font-bold text-gray-100">{stats.totalProcessed}</p>
+                <p className="text-xs text-gray-500 mt-1">Procesados</p>
               </div>
               <div className="card text-center">
-                <p className="text-2xl font-bold text-green-600">{stats.totalSent}</p>
-                <p className="text-xs text-gray-600 mt-1">Enviados</p>
+                <p className="text-2xl font-bold text-emerald-400">{stats.totalSent}</p>
+                <p className="text-xs text-gray-500 mt-1">Enviados</p>
               </div>
               <div className="card text-center">
-                <p className="text-2xl font-bold text-yellow-600">{stats.totalInvalid}</p>
-                <p className="text-xs text-gray-600 mt-1">Inválidos</p>
+                <p className="text-2xl font-bold text-amber-400">{stats.totalInvalid}</p>
+                <p className="text-xs text-gray-500 mt-1">Inválidos</p>
               </div>
               <div className="card text-center">
-                <p className="text-2xl font-bold text-red-600">{stats.totalErrors}</p>
-                <p className="text-xs text-gray-600 mt-1">Errores</p>
+                <p className="text-2xl font-bold text-red-400">{stats.totalErrors}</p>
+                <p className="text-xs text-gray-500 mt-1">Errores</p>
               </div>
             </div>
 
@@ -328,7 +328,7 @@ const Dashboard = () => {
           </div>
 
           {/* Right Column - Activity Log */}
-          <div className="overflow-hidden">
+          <div className="h-full overflow-hidden">
             <ActivityLog activities={activities} />
           </div>
         </div>
@@ -338,7 +338,6 @@ const Dashboard = () => {
       <ConfigPanel
         isOpen={configPanelOpen}
         onClose={handleConfigClose}
-        currentConfig={config}
       />
     </div>
   );

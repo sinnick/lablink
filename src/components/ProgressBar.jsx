@@ -2,16 +2,16 @@ import React from 'react';
 
 const ProgressBar = ({ progress = 0, status = 'active', size = 'md', showPercentage = true }) => {
   const statusColors = {
-    active: 'bg-blue-600',
-    success: 'bg-green-600',
-    error: 'bg-red-600',
-    warning: 'bg-yellow-600'
+    active: 'bg-blue-500',
+    success: 'bg-emerald-500',
+    error: 'bg-red-500',
+    warning: 'bg-amber-500'
   };
 
   const sizes = {
     sm: 'h-1',
-    md: 'h-2',
-    lg: 'h-3'
+    md: 'h-1.5',
+    lg: 'h-2'
   };
 
   const color = statusColors[status] || statusColors.active;
@@ -22,21 +22,21 @@ const ProgressBar = ({ progress = 0, status = 'active', size = 'md', showPercent
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between mb-1">
-        {showPercentage && (
-          <span className="text-sm font-medium text-gray-700">
+      {showPercentage && (
+        <div className="flex items-center justify-end mb-1">
+          <span className="text-xs font-medium text-gray-400">
             {Math.round(normalizedProgress)}%
           </span>
-        )}
-      </div>
-      <div className={`w-full bg-gray-200 rounded-full ${height} overflow-hidden`}>
+        </div>
+      )}
+      <div className={`w-full bg-gray-700 rounded-full ${height} overflow-hidden`}>
         <div
           className={`${color} ${height} rounded-full transition-all duration-300 ease-out`}
           style={{ width: `${normalizedProgress}%` }}
         >
           {status === 'active' && normalizedProgress > 0 && normalizedProgress < 100 && (
             <div className="h-full w-full relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-pulse"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-20 animate-pulse"></div>
             </div>
           )}
         </div>

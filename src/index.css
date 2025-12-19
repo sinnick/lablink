@@ -9,52 +9,57 @@
 
   body {
     @apply m-0 font-sans antialiased;
-    @apply bg-gray-50 text-gray-900;
+    @apply bg-black text-gray-200;
   }
 
   #root {
-    @apply w-full h-screen overflow-hidden;
+    @apply w-full min-h-screen;
   }
 }
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply px-4 py-2 rounded-xl font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black;
   }
 
   .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-700;
+    @apply btn bg-primary-600 text-white hover:bg-primary-500;
     @apply focus:ring-primary-500;
   }
 
   .btn-secondary {
-    @apply btn bg-gray-200 text-gray-700 hover:bg-gray-300;
-    @apply focus:ring-gray-400;
+    @apply btn bg-surface-light text-gray-200 hover:bg-gray-600;
+    @apply focus:ring-gray-500;
   }
 
   .btn-danger {
-    @apply btn bg-red-600 text-white hover:bg-red-700;
-    @apply focus:ring-red-500;
+    @apply btn bg-labinfo-red text-white hover:bg-labinfo-red-dark;
+    @apply focus:ring-labinfo-red;
   }
 
   .btn-success {
-    @apply btn bg-green-600 text-white hover:bg-green-700;
-    @apply focus:ring-green-500;
+    @apply btn bg-emerald-600 text-white hover:bg-emerald-500;
+    @apply focus:ring-emerald-500;
   }
 
   .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4;
+    @apply bg-surface rounded-2xl p-4;
+  }
+
+  .card-elevated {
+    @apply card shadow-lg shadow-black/20;
   }
 
   .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg;
+    @apply w-full px-4 py-3 bg-surface-light border border-gray-600 rounded-xl;
+    @apply text-gray-200 placeholder-gray-500;
     @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
     @apply transition-all duration-200;
   }
 
   .label {
-    @apply block text-sm font-medium text-gray-700 mb-1;
+    @apply block text-sm font-medium text-gray-400 mb-2;
   }
 
   .status-badge {
@@ -62,25 +67,26 @@
   }
 
   .status-badge-success {
-    @apply status-badge bg-green-100 text-green-800;
+    @apply status-badge bg-emerald-500/20 text-emerald-400;
   }
 
   .status-badge-error {
-    @apply status-badge bg-red-100 text-red-800;
+    @apply status-badge bg-labinfo-red/20 text-red-400;
   }
 
   .status-badge-warning {
-    @apply status-badge bg-yellow-100 text-yellow-800;
+    @apply status-badge bg-amber-500/20 text-amber-400;
   }
 
   .status-badge-info {
-    @apply status-badge bg-blue-100 text-blue-800;
+    @apply status-badge bg-blue-500/20 text-blue-400;
   }
 }
 
 @layer utilities {
   .scrollbar-thin {
     scrollbar-width: thin;
+    scrollbar-color: #4b5563 #1f2937;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -88,14 +94,14 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-track {
-    @apply bg-gray-100;
+    @apply bg-surface-dark rounded-full;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 rounded-full;
+    @apply bg-gray-600 rounded-full;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400;
+    @apply bg-gray-500;
   }
 }

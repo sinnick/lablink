@@ -2,7 +2,7 @@ const path = require('path');
 
 class FileValidator {
   constructor() {
-    // Patrones de validación según el formato: LABORATORIO_PROTOCOLO_DNI.pdf
+    // Patrones de validación
     this.patterns = {
       laboratorio: /^[0-9]{4}$/,        // 4 dígitos
       protocolo: /^[0-9]{1,8}$/,        // 1 a 8 dígitos
@@ -12,6 +12,9 @@ class FileValidator {
 
   /**
    * Valida un archivo PDF
+   * Formatos aceptados:
+   * - LABORATORIO_PROTOCOLO_DNI.pdf (3 partes)
+   * - LABORATORIO_PROTOCOLO_DNI_NOMBRE_FECHA.pdf (5 partes)
    * @param {string} fileName - Nombre del archivo
    * @returns {Object} Resultado de la validación
    */
@@ -35,14 +38,15 @@ class FileValidator {
     // Separar por guión bajo
     const parts = nameWithoutExt.split('_');
 
-    if (parts.length !== 3) {
-      result.errors.push('El nombre debe tener el formato: LABORATORIO_PROTOCOLO_DNI.pdf');
+    // Aceptar 3 partes (formato simple) o 5 partes (formato completo)
+    if (parts.length < 3) {
+      result.errors.push('El nombre debe tener al menos: LABORATORIO_PROTOCOLO_DNI.pdf');
       return result;
     }
 
     const [laboratorio, protocolo, dni] = parts;
 
-    // Validar cada parte
+    // Validar las 3 partes principales
     const validations = [
       {
         name: 'laboratorio',
@@ -71,6 +75,14 @@ class FileValidator {
         result.errors.push(`${name.toUpperCase()} inválido: se esperan ${description}, se obtuvo "${value}"`);
       }
     });
+
+    // Guardar partes adicionales si existen (nombre, fecha)
+    if (parts.length >= 4) {
+      result.parts.nombre = parts[3];
+    }
+    if (parts.length >= 5) {
+      result.parts.fecha = parts[4];
+    }
 
     // El archivo es válido si no hay errores
     result.isValid = result.errors.length === 0;

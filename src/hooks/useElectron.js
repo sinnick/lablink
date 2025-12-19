@@ -1,84 +1,57 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 
 // Hook para interactuar con Electron API
 export const useElectron = () => {
   const api = window.electronAPI;
-
-  // Verificar si estamos en Electron
-  const isElectron = () => {
-    return api !== undefined;
-  };
-
-  // Configuración
-  const getConfig = useCallback(async () => {
-    if (!isElectron()) return null;
-    return await api.getConfig();
-  }, [api]);
-
-  const saveConfig = useCallback(async (config) => {
-    if (!isElectron()) return null;
-    return await api.saveConfig(config);
-  }, [api]);
-
-  const selectFolder = useCallback(async () => {
-    if (!isElectron()) return null;
-    return await api.selectFolder();
-  }, [api]);
-
-  // Monitoreo
-  const startMonitor = useCallback(async () => {
-    if (!isElectron()) return null;
-    return await api.startMonitor();
-  }, [api]);
-
-  const stopMonitor = useCallback(async () => {
-    if (!isElectron()) return null;
-    return await api.stopMonitor();
-  }, [api]);
-
-  const getMonitorStatus = useCallback(async () => {
-    if (!isElectron()) return null;
-    return await api.getMonitorStatus();
-  }, [api]);
-
-  // Archivos
-  const retryFile = useCallback(async (filePath) => {
-    if (!isElectron()) return null;
-    return await api.retryFile(filePath);
-  }, [api]);
-
-  // Notificaciones
-  const showNotification = useCallback(async (title, body) => {
-    if (!isElectron()) return null;
-    return await api.showNotification(title, body);
-  }, [api]);
-
-  // Logs
-  const getLogs = useCallback(async () => {
-    if (!isElectron()) return null;
-    return await api.getLogs();
-  }, [api]);
+  const isElectronEnv = api !== undefined;
 
   return {
-    isElectron: isElectron(),
+    isElectron: isElectronEnv,
     config: {
-      get: getConfig,
-      save: saveConfig,
-      selectFolder,
+      get: async () => {
+        if (!api) return null;
+        return await api.getConfig();
+      },
+      save: async (config) => {
+        if (!api) return null;
+        return await api.saveConfig(config);
+      },
+      selectFolder: async () => {
+        if (!api) return null;
+        return await api.selectFolder();
+      },
     },
     monitor: {
-      start: startMonitor,
-      stop: stopMonitor,
-      getStatus: getMonitorStatus,
+      start: async () => {
+        if (!api) return null;
+        return await api.startMonitor();
+      },
+      stop: async () => {
+        if (!api) return null;
+        return await api.stopMonitor();
+      },
+      getStatus: async () => {
+        if (!api) return null;
+        return await api.getMonitorStatus();
+      },
     },
     file: {
-      retry: retryFile,
+      retry: async (filePath) => {
+        if (!api) return null;
+        return await api.retryFile(filePath);
+      },
     },
     notification: {
-      show: showNotification,
+      show: async (title, body) => {
+        if (!api) return null;
+        return await api.showNotification(title, body);
+      },
     },
     logs: {
-      get: getLogs,
+      get: async () => {
+        if (!api) return null;
+        return await api.getLogs();
+      },
     },
   };
 };

@@ -7,11 +7,16 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5174 && electron . --no-sandbox\"",
     "electron:build": "npm run build && electron-builder",
     "dist": "npm run build && electron-builder --win"
   },
-  "keywords": ["laboratorio", "pdf", "electron", "desktop"],
+  "keywords": [
+    "laboratorio",
+    "pdf",
+    "electron",
+    "desktop"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -27,6 +32,7 @@
     "concurrently": "^9.1.2",
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8",
+    "electron-reload": "^2.0.0-alpha.1",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "vite": "^6.0.3",
@@ -44,7 +50,9 @@
       "build/**/*"
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "build/icon.ico"
     },
     "nsis": {
